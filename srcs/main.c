@@ -6,11 +6,21 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 02:02:56 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/01/31 02:57:10 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/01/31 19:32:40 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+t_dot	*get_dot_from(int fd, int *height, int *witdh)
+{
+	(void)height;
+	(void)witdh;
+	if (fd)
+		return (NULL);
+	return (NULL);
+}
+
 
 void    *inits(void **mlx, void  **win, void **img, int fd)
 {
@@ -22,7 +32,7 @@ void    *inits(void **mlx, void  **win, void **img, int fd)
     *mlx = mlx_init();
     if (!(*mlx))
         return (NULL);
-    win = mlx_new_window(*mlx, WIN_SX, WIN_SY);
+    win = mlx_new_window(*mlx, WIN_SX, WIN_SY, FDF_TITLE);
     if (!win)
         return (NULL);
     dots = get_dot_from_file(fd, &heigth, &witdh);
@@ -45,12 +55,13 @@ int main(int ac, char **av)
     t_dot   **dots;
     int     fd;
 
-    if (ac != 1)
-        return (0);
+    if (ac != 2)
+        return (write(2, "Usage : ./fdf <MAP_FILE.fdf>", 30), 1);
     fd = open(av[0], RDONLY);
     if (fd == -1)
-        return (1);
+        return (write(1, "Error : cannot open file\n", 26), 1);
     *dots = inits(&mlx, &win, &img, fd);
     close(fd);
     mlx_loop(mlx);
+	return (0);
 }

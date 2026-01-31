@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:51:23 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/01/31 02:37:53 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/01/31 18:41:45 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define WIN_SY 300
 # define IMG_SX 100
 # define IMG_SY 100
+# define FDF_TITLE "titre du project"
 
 typedef struct s_dot
 {
@@ -33,12 +34,5 @@ typedef struct s_img
     int     *size_line;
     int     *endian;
 }   t_img;
-typedef struct s_map
-{
 
-}   t_map;
-typedef struct s_fdf
-{
-
-}   t_fdf;
 #endif
