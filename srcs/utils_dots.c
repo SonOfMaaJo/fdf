@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 23:04:25 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/05 02:02:33 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/05 16:26:01 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,3 @@ void	fill_img_with_pixel_dots(t_img **img, t_map map, int height, int width)
 	}
 
 }
-

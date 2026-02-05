@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 02:02:56 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/05 02:08:29 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/05 16:24:55 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int inits(void **mlx, void **win, t_img **img, char *file)
         return (0);
     (*img)->data = mlx_get_data_addr((*img)->img_ptr, &((*img)->bit_per_pixel),
             &((*img)->size_line), &((*img)->endian));
-    fill_img_with_pixel_dots(img, map, heigth, width);
+    fill_img_with_pixel_dots(img, *map, heigth, width);
     mlx_put_image_to_window(mlx, win, (*img)->img_ptr, 20, 20);
     return (1);
 }
