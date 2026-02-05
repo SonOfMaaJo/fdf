@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 23:04:25 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/05 16:26:01 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/05 18:59:56 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static t_proj_dot	**get_dots_2d(t_map map, int height, int width)
 {
 	t_proj_dot	**dots_2d;
-	double		proj_x;
-	double		proj_y;
+	int			proj_x;
+	int			proj_y;
 	int			i;
 	int			j;
 
@@ -28,7 +28,7 @@ static t_proj_dot	**get_dots_2d(t_map map, int height, int width)
 	{
 		dots_2d[i] = (t_proj_dot *)malloc(sizeof(t_proj_dot) * width);
 		if (!dots_2d[i])
-			return (free((void **)dots_2d, i), NULL);
+			return (ft_free((void **)dots_2d, i), NULL);
 		j = -1;
 		while (++j < width)
 		{
@@ -47,7 +47,7 @@ void	fill_img_with_pixel_dots(t_img **img, t_map map, int height, int width)
 	int			i;
 	int			j;
 
-	dots_2d = get_dots_2d(map.dots, height, width);
+	dots_2d = get_dots_2d(map, height, width);
 	if (!dots_2d)
 		return ;
 	i = -1;
@@ -59,9 +59,7 @@ void	fill_img_with_pixel_dots(t_img **img, t_map map, int height, int width)
 			if (j < width - 1)
 				draw_lign(*img, dots_2d[i][j], dots_2d[i][j + 1]);
 			if (i < height - 1)
-				draw_lign(*img, dots_2d[i][j], dots_2d[i + 1][j])
-
+				draw_lign(*img, dots_2d[i][j], dots_2d[i + 1][j]);
 		}
 	}
-
 }

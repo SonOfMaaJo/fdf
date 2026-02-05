@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:51:23 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/05 17:04:11 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/05 20:01:04 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # define WIN_WIDTH 1080
 # define WIN_HEIGHT 720
 # define FDF_TITLE "titre du project"
-# define COLOR_DISCO 0x9A1F6A
-# define COLOR_BRICK 0xC2294E
+# define COLOR_DISCO "0x9A1F6A"
+# define COLOR_BRICK "0xC2294E"
 # define COLOR_FLAMINGO 0xEC4B27
 # define COLOR_JAFFA 0xEF8633
 # define COLOR_SAFFRON 0xF3AF3D
@@ -90,7 +90,8 @@ void        rotate_x(double *y, double *z, double alpha);
 void        rotate_y(double *x, double *z, double beta);
 void        rotate_z(double *x, double *y, double gamma);
 void        translation(double *x, double *y, double *z, double k);
-void        iso_project(t_dot dot, double *proj_x, double *proj_y);
+void        iso_project(t_dot dot, int *proj_x, int *proj_y);
 int         ft_atoi_hex(char *str);
+int         get_color(int start, int end, double percentage);
 
 #endif

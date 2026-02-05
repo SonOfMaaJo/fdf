@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 23:50:47 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/05 00:34:24 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/05 19:08:23 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	get_index(t_img *img, int x, int y)
 {
-	return ((y * img->size_line) + (x * (bits_per_pixel / 8)));
+	return ((y * img->size_line) + (x * (img->bit_per_pixel / 8)));
 }
 
 static int	get_step(int n, int m)
@@ -36,16 +36,16 @@ static void	put_pixel(t_img *img, int x, int y, int color)
 	}
 }
 
-static int	bresenham_trick(int *error, int n, int m, int sign)
+static int	bresenham_trick(int *err, int n, int m, int sign)
 {
 	int	er;
 
-	er = 2 * (*error);
+	er = 2 * (*err);
 	if (sign)
 	{
 		if (er > -1 * abs(m - n))
 		{
-			*error -= abs(m - n);
+			*err -= abs(m - n);
 			return (1);
 		}
 	}
@@ -53,7 +53,7 @@ static int	bresenham_trick(int *error, int n, int m, int sign)
 	{
 		if (er < abs(m - n))
 		{
-			*error += abs(m - n);
+			*err += abs(m - n);
 			return (1);
 		}
 	}
@@ -62,30 +62,29 @@ static int	bresenham_trick(int *error, int n, int m, int sign)
 
 void	draw_lign(t_img *img, t_proj_dot dot_a, t_proj_dot dot_b)
 {
-	int		error;
+	int		err;
 	int		s[2];
 	int		xy[2];
 	double	percent;
 	int		i;
-:
-	s[0] = get_step((int)dot_a.proj_x, (int)dot_b.proj_x);
-	s[1] = get_step((int)dot_a.proj_y, (int)dot_b.proj_y);
-	error = abs((int)dot_b.proj_x - (int)dot_a.proj_x) -
-		abs((int)dot_b.proj_y - (int)dot_a.proj_y);
-	xy[0] = (int)dot_a.proj_x;
-	xy[1] = (int)dot_a.proj_y;
+
+	s[0] = get_step(dot_a.proj_x, dot_b.proj_x);
+	s[1] = get_step(dot_a.proj_y, dot_b.proj_y);
+	err = abs(dot_b.proj_x - dot_a.proj_x) - abs(dot_b.proj_y - dot_a.proj_y);
+	xy[0] = dot_a.proj_x;
+	xy[1] = dot_a.proj_y;
 	i = 0;
-	while (true)
+	while (1)
 	{
-		percent = i / (max(dot_b.proj_x - dot_a.proj_x,
-					dot_b.proj_y - dot_a.proj_x))
+		percent = i / (fmax(dot_b.proj_x - dot_a.proj_x,
+					dot_b.proj_y - dot_a.proj_x));
 		put_pixel(img, xy[0], xy[1], get_color(dot_a.color,
-					dot_b.color, percent));
-		if (xy[0] == (int)dot_b.proj_x && xy[1] = (int)dot_b.proj_y)
+				dot_b.color, percent));
+		if (xy[0] == dot_b.proj_x && xy[1] == dot_b.proj_y)
 			return ;
-		if (bresenham_trick(&error, (int)dot_a->proj_x, (int)dot_b->proj_x, 1))
+		if (bresenham_trick(&err, dot_a.proj_x, dot_b.proj_x, 1))
 			xy[0] += s[0];
-		if (bresenham_trick(&errror, (int)dot_a->proj_y, (int)dot_b->proj_y, 0))
+		if (bresenham_trick(&err, dot_a.proj_y, dot_b.proj_y, 0))
 			xy[1] += s[1];
 	}
 }

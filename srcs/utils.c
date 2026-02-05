@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 00:32:50 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/05 17:52:01 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/05 18:06:09 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	get_map_dimensions(char *file, int *height, int *width)
 	return (0);
 }
 
-static void	set_limits(t_limits *lim, float proj_x, float proj_y)
+static void	set_limits(t_limits *lim, int proj_x, int proj_y)
 {
 	if (proj_x < lim->min_x)
 		lim->min_x = proj_x;
@@ -107,8 +107,8 @@ t_limits get_map_limits(t_map *map)
 	t_limits		lim;
 	int				i;
 	int				j;
-	float			pro_y;
-	float			proj_y;
+	int				proj_x;
+	int				proj_y;
 
 	i = -1;
 	lim.min_x = INT_MIN;

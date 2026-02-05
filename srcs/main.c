@@ -6,14 +6,13 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 02:02:56 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/05 16:24:55 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/05 20:06:24 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <fcntl.h>
 
-static t_dot   *get_dot(char *line, int i, int width)
+static t_dot    *get_dot(char *line, int i, int width)
 {
     char    **splits_line;
     t_dot   *dots;
@@ -75,8 +74,10 @@ int inits(void **mlx, void **win, t_img **img, char *file)
     *win = mlx_new_window(*mlx, WIN_WIDTH, WIN_HEIGHT, FDF_TITLE);
     if (!(*win))
         return (0);
+    ft_printf("here !!!");
     if (!set_map(file, &width, &heigth, &map))
         return (0);
+    ft_printf("here !!!");
     *img = malloc(sizeof(t_img));
     if (!(*img))
         return (0);
@@ -85,8 +86,10 @@ int inits(void **mlx, void **win, t_img **img, char *file)
         return (0);
     (*img)->data = mlx_get_data_addr((*img)->img_ptr, &((*img)->bit_per_pixel),
             &((*img)->size_line), &((*img)->endian));
-    fill_img_with_pixel_dots(img, *map, heigth, width);
-    mlx_put_image_to_window(mlx, win, (*img)->img_ptr, 20, 20);
+    //fill_img_with_pixel_dots(img, *map, heigth, width);
+    (*img)->data[0] = ft_atoi_hex(COLOR_DISCO);
+    (*img)->data[1] = ft_atoi_hex(COLOR_BRICK);
+   //mlx_put_image_to_window(mlx, win, (*img)->img_ptr, 20, 20);
     return (1);
 }
 

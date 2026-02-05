@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 02:33:31 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/04 10:12:02 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/05 19:13:17 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	rotate_x(double *y, double *z, double alpha)
 {
-	double previous_y;
+	double	previous_y;
 
 	previous_y = *y;
 	*y = previous_y * cos(alpha) + *z * sin(alpha);
@@ -32,8 +32,8 @@ void	rotate_y(double *x, double *z, double beta)
 
 void	rotate_z(double *x, double *y, double gamma)
 {
-	double previous_x;
-	double previous_y;
+	double	previous_x;
+	double	previous_y;
 
 	previous_x = *x;
 	previous_y = *y;
@@ -48,10 +48,9 @@ void	translation(double *x, double *y, double *z, double k)
 	*z += k;
 }
 
-void	iso_project(t_dot dot, double *proj_x, double *proj_y)
+void	iso_project(t_dot dot, int *proj_x, int *proj_y)
 {
-
-	*proj_x = (dot.abscissa - dot.ordinate) * cos(0.523599);
-	*proj_y = -1 * dot.altitude + (dot.abscissa
-			+ dot.ordinate) * sin(0.523599);
+	*proj_x = (int)((dot.abscissa - dot.ordinate) * cos(0.523599));
+	*proj_y = (int)(-1 * dot.altitude + (dot.abscissa
+				+ dot.ordinate) * sin(0.523599));
 }
