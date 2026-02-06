@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 14:30:21 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 16:56:40 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 18:21:28 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,4 @@ void	exit_program(void *param)
 	free(fdf_g->mlx);
 	free(fdf_g);
 	exit(EXIT_SUCCESS);
-}
-
-int	reset_all(param)
-{
-	t_fdf_win_g *fdf_g;
-
-	fdf_g = (t_fdf_win_g *)(param);
-
 }

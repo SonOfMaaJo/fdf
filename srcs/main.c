@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 02:02:56 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 16:29:17 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 20:03:53 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int put_all(t_fdf_win_g *fdf_g, char *file)
     int     width;
     int     heigth;
 
-    if (!set_map(file, &width, &heigth, &(fdf_g->map)))
+    if (!inits_map(file, &width, &heigth, &(fdf_g->map)))
          return (0);
     fdf_g->img = malloc(sizeof(t_img));
     if (!(fdf_g->img))

@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:51:23 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 15:59:11 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 20:02:41 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int			get_map_dimensions(char *file, int *width, int *height);
 void		set_dot(t_dot *dot, int i, int j, char *element);
 void		ft_free(void **table, int size);
 t_limits	get_map_limits(t_map *map);
-int			set_map(char *file, int *width, int *height, t_map **map);
+int			inits_map(char *file, int *width, int *height, t_map **map);
 void		draw_lign(t_img *img, t_proj_dot dot_a, t_proj_dot dot_b);
 void		rotate_x(double *y, double *z, double alpha);
 void		rotate_y(double *x, double *z, double beta);
@@ -136,5 +136,9 @@ void		find_n(char *line);
 void		clear_image(t_img *img);
 void		exit_program(void *param);
 int			handle_keypress(int keysym, void *param);
+int			init_proj_dots(t_map *map);
+void		set_zoom(t_map *map, t_limits lim);
+void		set_initial_factor(t_map *map);
+void		set_offset(t_map *map, t_limits lim);
 
 #endif
