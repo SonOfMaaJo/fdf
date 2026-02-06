@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 16:05:17 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/03 11:15:30 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/05 23:11:00 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -17,22 +17,12 @@
 # include <limits.h>
 # include <stdint.h>
 # include <stdarg.h>
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 100
-# endif
-
-typedef struct s_gnl_list
-{
-	int					fd;
-	char				rest[BUFFER_SIZE + 1];
-	struct s_gnl_list	*next;
-}	t_gnl_list;
 
 typedef struct s_list
 {
-	void				*content;
-	struct s_list		*next;
-}	t_list;
+	void			*content;
+	struct s_list	*next;
+}					t_list;
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -79,12 +69,25 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
+typedef struct s_gnl_list
+{
+	int					fd;
+	char				rest[BUFFER_SIZE + 1];
+	struct s_gnl_list	*next;
+}	t_gnl_list;
+
 char	*get_next_line(int fd);
 size_t	get_len_line(char *content_buffer);
 int		read_and_save(int fd, char **content_b, size_t *size_content);
 size_t	ft_strncat_l(char *dest, char *buffer, size_t len, char c);
 char	*init_fread(char *buffer, char *content_b, size_t size, char c);
 int		ft_gnl_free(char *buffer);
+
 int		ft_printf(const char *format, ...);
 void	ft_printarg(char format, va_list args, int *len);
 int		ft_putchar(char c);

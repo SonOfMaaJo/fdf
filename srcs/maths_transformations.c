@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 02:33:31 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/05 19:13:17 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 02:01:30 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	translation(double *x, double *y, double *z, double k)
 	*z += k;
 }
 
-void	iso_project(t_dot dot, int *proj_x, int *proj_y)
+void	iso_project(t_dot dot, double *proj_x, double *proj_y)
 {
-	*proj_x = (int)((dot.abscissa - dot.ordinate) * cos(0.523599));
-	*proj_y = (int)(-1 * dot.altitude + (dot.abscissa
-				+ dot.ordinate) * sin(0.523599));
+	*proj_x = (dot.abscissa - dot.ordinate) * cos(0.523599);
+	*proj_y = -1 * dot.altitude + (dot.abscissa
+			+ dot.ordinate) * sin(0.523599);
 }

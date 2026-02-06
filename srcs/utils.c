@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 00:32:50 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/05 18:06:09 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:43:39 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	set_dot(t_dot *dot, int i, int j, char *element)
 {
 	char	*comma;
 
-	dot->abscissa = i;
-	dot->ordinate = j;
+	dot->abscissa = j;
+	dot->ordinate = i;
 	dot->altitude = ft_atoi(element);
 	comma = ft_strchr(element, ',');
 	if (comma)
@@ -50,7 +50,8 @@ static int	get_width_line(char *line)
 	{
 		i = 0;
 		alt = ft_split(splits_line[j - 1], ',');
-
+		if (alt[0][i] == '-' || alt[0][i] == '+')
+			i++;
 		while (alt[0][i++])
 			if ((alt[0][i - 1] != '\n' && !ft_isdigit(alt[0][i - 1])) ||
 					(alt[0][i - 1] == '\n' && alt[0][i]))
@@ -90,7 +91,7 @@ int	get_map_dimensions(char *file, int *height, int *width)
 	return (0);
 }
 
-static void	set_limits(t_limits *lim, int proj_x, int proj_y)
+static void	set_limits(t_limits *lim, double proj_x, double proj_y)
 {
 	if (proj_x < lim->min_x)
 		lim->min_x = proj_x;
@@ -98,8 +99,8 @@ static void	set_limits(t_limits *lim, int proj_x, int proj_y)
 		lim->max_x = proj_x;
 	if (proj_y < lim->min_y)
 		lim->min_y = proj_y;
-	if (proj_y > lim->min_y)
-		lim->min_y = proj_y;
+	if (proj_y > lim->max_y)
+		lim->max_y = proj_y;
 }
 
 t_limits get_map_limits(t_map *map)
@@ -107,21 +108,21 @@ t_limits get_map_limits(t_map *map)
 	t_limits		lim;
 	int				i;
 	int				j;
-	int				proj_x;
-	int				proj_y;
+	double			proj_x;
+	double			proj_y;
 
 	i = -1;
-	lim.min_x = INT_MIN;
-	lim.max_x = INT_MAX;
-	lim.min_y = INT_MIN;
-	lim.max_y = INT_MAX;
+	lim.min_x = INT_MAX;
+	lim.max_x = INT_MIN;
+	lim.min_y = INT_MAX;
+	lim.max_y = INT_MIN;
 	while (++i < map->height)
 	{
 		j = -1;
 		while (++j < map->width)
 		{
 			iso_project(map->dots[i][j], &proj_x, &proj_y);
-			set_limits(&lim, proj_x, proj_y);
+			set_limits(&lim, (int)proj_x, (int)proj_y);
 		}
 	}
 	return (lim);

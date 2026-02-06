@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 23:04:25 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/05 18:59:56 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 10:11:24 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static t_proj_dot	**get_dots_2d(t_map map, int height, int width)
 {
 	t_proj_dot	**dots_2d;
-	int			proj_x;
-	int			proj_y;
+	double		proj_x;
+	double		proj_y;
 	int			i;
 	int			j;
 
@@ -33,22 +33,21 @@ static t_proj_dot	**get_dots_2d(t_map map, int height, int width)
 		while (++j < width)
 		{
 			iso_project(map.dots[i][j], &proj_x, &proj_y);
-			dots_2d[i][j].proj_x = (int)((proj_x * map.zoom) + map.offset_x);
-			dots_2d[i][j].proj_y = (int)((proj_y * map.zoom) + map.offset_y);
+			dots_2d[i][j].proj_x = proj_x * map.zoom + map.offset_x;
+			dots_2d[i][j].proj_y = proj_y * map.zoom + map.offset_y;
 			dots_2d[i][j].color = (map.dots[i][j]).color;
 		}
 	}
 	return (dots_2d);
 }
 
-void	fill_img_with_pixel_dots(t_img **img, t_map map, int height, int width)
+void	fill_img_with_pixel_dots(t_img **img, t_map *map, int height, int width)
 {
-	t_proj_dot	**dots_2d;
 	int			i;
 	int			j;
 
-	dots_2d = get_dots_2d(map, height, width);
-	if (!dots_2d)
+	map->proj_dots = get_dots_2d(*map, height, width);
+	if (!map->proj_dots)
 		return ;
 	i = -1;
 	while (++i < height)
@@ -57,9 +56,11 @@ void	fill_img_with_pixel_dots(t_img **img, t_map map, int height, int width)
 		while (++j < width)
 		{
 			if (j < width - 1)
-				draw_lign(*img, dots_2d[i][j], dots_2d[i][j + 1]);
+				draw_lign(*img, (map->proj_dots)[i][j],
+						(map->proj_dots)[i][j+1]);
 			if (i < height - 1)
-				draw_lign(*img, dots_2d[i][j], dots_2d[i + 1][j]);
+				draw_lign(*img, (map->proj_dots)[i][j],
+						(map->proj_dots)[i + 1][j]);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 02:02:56 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/05 20:06:24 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 10:10:28 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,13 @@ t_dot	**get_dot_from(char *file, int *height, int *width)
     return (dots);
 }
 
-int inits(void **mlx, void **win, t_img **img, char *file)
+int inits(void **mlx, void **win, t_img **img, char *file, t_map **map)
 {
-    t_map   *map;
     int     width;
     int     heigth;
 
-    *mlx = mlx_init();
-    if (!(*mlx))
+    if (!set_map(file, &width, &heigth, map))
         return (0);
-    *win = mlx_new_window(*mlx, WIN_WIDTH, WIN_HEIGHT, FDF_TITLE);
-    if (!(*win))
-        return (0);
-    ft_printf("here !!!");
-    if (!set_map(file, &width, &heigth, &map))
-        return (0);
-    ft_printf("here !!!");
     *img = malloc(sizeof(t_img));
     if (!(*img))
         return (0);
@@ -86,10 +77,8 @@ int inits(void **mlx, void **win, t_img **img, char *file)
         return (0);
     (*img)->data = mlx_get_data_addr((*img)->img_ptr, &((*img)->bit_per_pixel),
             &((*img)->size_line), &((*img)->endian));
-    //fill_img_with_pixel_dots(img, *map, heigth, width);
-    (*img)->data[0] = ft_atoi_hex(COLOR_DISCO);
-    (*img)->data[1] = ft_atoi_hex(COLOR_BRICK);
-   //mlx_put_image_to_window(mlx, win, (*img)->img_ptr, 20, 20);
+    fill_img_with_pixel_dots(img, *map, heigth, width);
+    mlx_put_image_to_window(*mlx, *win, (*img)->img_ptr, 0, 0);
     return (1);
 }
 
@@ -98,10 +87,17 @@ int main(int ac, char **av)
     void    *mlx;
     void    *win;
     t_img   *img;
+    t_map   *map;
 
     if (ac != 2)
         return (ft_putstr_fd("Usage : ./fdf <MAP_FILE.fdf>\n", 2), 1);
-    if (!inits(&mlx, &win, &img, av[1]))
+    mlx = mlx_init();
+    if (!(mlx))
+        return (0);
+    win = mlx_new_window(mlx, WIN_WIDTH, WIN_HEIGHT, FDF_TITLE);
+    if (!(win))
+        return (0);
+    if (!inits(&mlx, &win, &img, av[1], &map))
         return (1);
     mlx_loop(mlx);
 	return (0);
