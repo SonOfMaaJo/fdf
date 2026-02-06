@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keyb_mouse_events.c                                :+:      :+:    :+:   */
+/*   key_press_events.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:07:18 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 14:46:44 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 16:24:19 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	handle_keypress(int keysym, void *param)
 {
 	if (keysym == KEY_ESC)
 		exit_program(param);
+	else (keysym == KEY_R)
+		reset_all(param);
 	return (0);
 }
 

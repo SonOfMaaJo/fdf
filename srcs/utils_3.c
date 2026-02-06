@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 14:30:21 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 14:49:30 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 16:56:40 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	exit_program(void *param)
 {
-	t_fdf_win_g	*fdf_win;
+	t_fdf_win_g	*fdf_g;
 
-	fdf_win = (t_fdf_win_g *)(param);
+	fdf_g = (t_fdf_win_g *)(param);
 	ft_free((void **)(fdf_g->map)->dots, (fdf_g->map)->height);
 	ft_free((void **)(fdf_g->map)->proj_dots, (fdf_g->map)->height);
 	free(fdf_g->map);
@@ -26,4 +26,13 @@ void	exit_program(void *param)
 	mlx_destroy_display(fdf_g->mlx);
 	free(fdf_g->mlx);
 	free(fdf_g);
+	exit(EXIT_SUCCESS);
+}
+
+int	reset_all(param)
+{
+	t_fdf_win_g *fdf_g;
+
+	fdf_g = (t_fdf_win_g *)(param);
+
 }

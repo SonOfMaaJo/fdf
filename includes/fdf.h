@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:51:23 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 15:04:14 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:59:11 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int			get_color(int start, int end, double percentage);
 void		ft_free_s(char **table);
 void		find_n(char *line);
 void		clear_image(t_img *img);
-void		exit_program(t_fdf_win_g *fdf_g);
+void		exit_program(void *param);
 int			handle_keypress(int keysym, void *param);
 
 #endif

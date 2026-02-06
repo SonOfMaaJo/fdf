@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 02:02:56 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 14:58:15 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 16:29:17 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int put_all(t_fdf_win_g *fdf_g, char *file)
     int     heigth;
 
     if (!set_map(file, &width, &heigth, &(fdf_g->map)))
-        return (0);
+         return (0);
     fdf_g->img = malloc(sizeof(t_img));
     if (!(fdf_g->img))
         return (0);
@@ -98,9 +98,10 @@ int main(int ac, char **av)
     fdf_g->win = mlx_new_window(fdf_g->mlx, WIN_WIDTH, WIN_HEIGHT, FDF_TITLE);
     if (!(fdf_g->win))
         return (0);
+    fdf_g->map = NULL;
     if (!put_all(fdf_g, av[1]))
         return (1);
-    mlx_hook(fdf_g->win, 2, 1L << 0, (int (*)())handle_keypress, fdf_g);
+    mlx_hook(fdf_g->win, 2, 1L << 0, (void *)handle_keypress, fdf_g);
     mlx_loop(fdf_g->mlx);
 	return (0);
 }
