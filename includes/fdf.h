@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:51:23 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 11:41:57 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:04:14 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,26 @@
 # define COLOR_JAFFA 0xEF8633
 # define COLOR_SAFFRON 0xF3AF3D
 # define COLOR_BLACK 0x000000
+# define KEY_ESC 65307
+# define KEY_R 114
+# define KEY_DIR_UP 65362
+# define KEY_DIR_DOWN 65364
+# define KEY_DIR_LEFT 65361
+# define KEY_DIR_RIGHT 65363
+# define KEY_ZOOM_P 65451
+# define KEY_ZOOM_M 65453
+# define KEY_W 119
+# define KEY_A 97
+# define KEY_Q 113
+# define KEY_S 115
+# define KEY_D 100
+# define KEY_E 101
+# define KEY_I 105
+# define KEY_P 112
+# define KEY_PAGE_UP 65365
+# define KEY_PAGE_DOWN 65366
+# define KEY_K 107
+# define KEY_L 108
 
 typedef struct s_dot
 {
@@ -73,16 +93,30 @@ typedef struct s_map
 	int			height;
 	int			width;
 	int			zoom;
+	double		z_divisor;
 	float		offset_x;
 	float		offset_y;
 	t_dot		**dots;
 	t_proj_dot	**proj_dots;
+	double		angle_x;
+	double		angle_y;
+	double		angle_z;
+	int			projection_type;
+	double		shear_factor;
 	t_limits	limits;
 }	t_map;
 
+typedef	struct	s_fdf_win_g
+{
+	t_map	*map;
+	t_img	*img;
+	void	*mlx;
+	void	*win;
+}	t_fdf_win_g;
+
 t_dot		**get_dot_from(char *file, int *height, int *width);
 void		fill_img_with_pixel_dots(t_img **img, t_map *map, int height, int width);
-int			inits(void **mlx, void **win, t_img **img, char *file, t_map **map);
+int			put_all(t_fdf_win_g *fdf_g, char *file);
 int			get_map_dimensions(char *file, int *width, int *height);
 void		set_dot(t_dot *dot, int i, int j, char *element);
 void		ft_free(void **table, int size);
@@ -93,9 +127,14 @@ void		rotate_x(double *y, double *z, double alpha);
 void		rotate_y(double *x, double *z, double beta);
 void		rotate_z(double *x, double *y, double gamma);
 void		translation(double *x, double *y, double *z, double k);
-void		iso_project(t_dot dot, double *proj_x, double *proj_y);
+void		iso_project(t_dot dot, double *proj_x, double *proj_y, double z_divisor);
 void		print_map_debug(t_map *map);
 int			ft_atoi_hex(char *str);
 int			get_color(int start, int end, double percentage);
+void		ft_free_s(char **table);
+void		find_n(char *line);
+void		clear_image(t_img *img);
+void		exit_program(t_fdf_win_g *fdf_g);
+int			handle_keypress(int keysym, void *param);
 
 #endif

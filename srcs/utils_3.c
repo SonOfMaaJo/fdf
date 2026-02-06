@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keyb_mouse_events.c                                :+:      :+:    :+:   */
+/*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/06 11:07:18 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 11:15:58 by vnaoussi         ###   ########.fr       */
+/*   Created: 2026/02/06 14:30:21 by vnaoussi          #+#    #+#             */
+/*   Updated: 2026/02/06 14:49:30 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	handle_keypress(int keysym, void *param)
+void	exit_program(void *param)
 {
-	if (keysym == KEY_ESC)
-		exit_program(param);
-	return (0);
-}
+	t_fdf_win_g	*fdf_win;
 
-int	handle_mouse(int buttom, int x, int y, void *param)
-{
-	t_map *map;
-
-	map = (t_map *)param;
-	if (button == 4)
-		map->zoom += 2;
-	else if (button == 5)
-		map->zoom -= 2;
-	render_map(map);
-	return (0);
-}
-
-int	close_window(void *param)
-{
-	exit(0);
-	return (0);
+	fdf_win = (t_fdf_win_g *)(param);
+	ft_free((void **)(fdf_g->map)->dots, (fdf_g->map)->height);
+	ft_free((void **)(fdf_g->map)->proj_dots, (fdf_g->map)->height);
+	free(fdf_g->map);
+	mlx_destroy_image(fdf_g->mlx, (fdf_g->img)->img_ptr);
+	free(fdf_g->img);
+	mlx_destroy_window(fdf_g->mlx, fdf_g->win);
+	mlx_destroy_display(fdf_g->mlx);
+	free(fdf_g->mlx);
+	free(fdf_g);
 }

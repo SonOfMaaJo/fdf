@@ -12,33 +12,25 @@
 
 #include "fdf.h"
 
-static t_proj_dot	**get_dots_2d(t_map map, int height, int width)
+static void	compute_projections(t_map *map, int height, int width)
 {
-	t_proj_dot	**dots_2d;
 	double		proj_x;
 	double		proj_y;
 	int			i;
 	int			j;
 
-	dots_2d = (t_proj_dot **)malloc(sizeof(t_proj_dot *) * height);
-	if (!dots_2d)
-		return (NULL);
 	i = -1;
 	while (++i < height)
 	{
-		dots_2d[i] = (t_proj_dot *)malloc(sizeof(t_proj_dot) * width);
-		if (!dots_2d[i])
-			return (ft_free((void **)dots_2d, i), NULL);
 		j = -1;
 		while (++j < width)
 		{
-			iso_project(map.dots[i][j], &proj_x, &proj_y);
-			dots_2d[i][j].proj_x = proj_x * map.zoom + map.offset_x;
-			dots_2d[i][j].proj_y = proj_y * map.zoom + map.offset_y;
-			dots_2d[i][j].color = (map.dots[i][j]).color;
+			iso_project(map->dots[i][j], &proj_x, &proj_y, map->z_divisor);
+			map->proj_dots[i][j].proj_x = (int)((proj_x * map->zoom) + map->offset_x);
+			map->proj_dots[i][j].proj_y = (int)((proj_y * map->zoom) + map->offset_y);
+			map->proj_dots[i][j].color = (map->dots[i][j]).color;
 		}
 	}
-	return (dots_2d);
 }
 
 void	fill_img_with_pixel_dots(t_img **img, t_map *map, int height, int width)
@@ -46,9 +38,7 @@ void	fill_img_with_pixel_dots(t_img **img, t_map *map, int height, int width)
 	int			i;
 	int			j;
 
-	map->proj_dots = get_dots_2d(*map, height, width);
-	if (!map->proj_dots)
-		return ;
+	compute_projections(map, height, width);
 	i = -1;
 	while (++i < height)
 	{
@@ -57,7 +47,7 @@ void	fill_img_with_pixel_dots(t_img **img, t_map *map, int height, int width)
 		{
 			if (j < width - 1)
 				draw_lign(*img, (map->proj_dots)[i][j],
-						(map->proj_dots)[i][j+1]);
+						(map->proj_dots)[i][j + 1]);
 			if (i < height - 1)
 				draw_lign(*img, (map->proj_dots)[i][j],
 						(map->proj_dots)[i + 1][j]);

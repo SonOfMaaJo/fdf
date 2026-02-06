@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 00:32:50 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 11:43:39 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/06 12:44:20 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	set_dot(t_dot *dot, int i, int j, char *element)
 {
 	char	*comma;
 
-	dot->abscissa = j;
-	dot->ordinate = i;
+	dot->abscissa = i;
+	dot->ordinate = j;
 	dot->altitude = ft_atoi(element);
 	comma = ft_strchr(element, ',');
 	if (comma)
@@ -42,6 +42,8 @@ static int	get_width_line(char *line)
 	int		i;
 	char	**alt;
 
+	alt = NULL;
+	find_n(line);
 	j = 0;
 	splits_line = ft_split(line, ' ');
 	if (!splits_line)
@@ -49,18 +51,19 @@ static int	get_width_line(char *line)
 	while (splits_line[j++])
 	{
 		i = 0;
+		if (alt)
+			ft_free_s(alt);
 		alt = ft_split(splits_line[j - 1], ',');
 		if (alt[0][i] == '-' || alt[0][i] == '+')
 			i++;
 		while (alt[0][i++])
-			if ((alt[0][i - 1] != '\n' && !ft_isdigit(alt[0][i - 1])) ||
-					(alt[0][i - 1] == '\n' && alt[0][i]))
-				return (-1);
+			if (!ft_isdigit(alt[0][i - 1]))
+				return (ft_free_s(alt), ft_free_s(splits_line), -1);
 		if (ft_atol(alt[0]) > INT_MAX
 				|| ft_atol(alt[0]) < INT_MIN)
-			return (-1);
+			return (ft_free_s(alt), ft_free_s(splits_line), -1);
 	}
-	return (ft_free((void **)splits_line, j), j - 1);
+	return (ft_free_s(alt), ft_free_s(splits_line), j - 1);
 }
 
 int	get_map_dimensions(char *file, int *height, int *width)
@@ -74,21 +77,24 @@ int	get_map_dimensions(char *file, int *height, int *width)
 		return (0);
 	*height = 0;
 	line = get_next_line(fd);
-	*width = get_width_line(line);
-	if (*width == 0)
+	if (!line)
 		return (close(fd), 0);
-	while(line)
+	*width = get_width_line(line);
+	if (*width <= 0)
+		return (free(line), close(fd), 0);
+	while (line)
 	{
 		*height += 1;
 		free(line);
 		line = get_next_line(fd);
-		if (line == NULL)
-			return (close(fd), 1);
-		j = get_width_line(line);
-		if (j != *width)
-			return (close(fd), 0);
+		if (line)
+		{
+			j = get_width_line(line);
+			if (j != *width)
+				return (free(line), close(fd), 0);
+		}
 	}
-	return (0);
+	return (close(fd), 1);
 }
 
 static void	set_limits(t_limits *lim, double proj_x, double proj_y)
@@ -121,7 +127,7 @@ t_limits get_map_limits(t_map *map)
 		j = -1;
 		while (++j < map->width)
 		{
-			iso_project(map->dots[i][j], &proj_x, &proj_y);
+			iso_project(map->dots[i][j], &proj_x, &proj_y, map->z_divisor);
 			set_limits(&lim, (int)proj_x, (int)proj_y);
 		}
 	}

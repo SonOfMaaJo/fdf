@@ -48,9 +48,9 @@ void	translation(double *x, double *y, double *z, double k)
 	*z += k;
 }
 
-void	iso_project(t_dot dot, double *proj_x, double *proj_y)
+void	iso_project(t_dot dot, double *proj_x, double *proj_y, double z_divisor)
 {
 	*proj_x = (dot.abscissa - dot.ordinate) * cos(0.523599);
-	*proj_y = -1 * dot.altitude + (dot.abscissa
+	*proj_y = -1 * (dot.altitude / z_divisor) + (dot.abscissa
 			+ dot.ordinate) * sin(0.523599);
 }
