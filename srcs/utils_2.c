@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 01:42:08 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 20:01:33 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/07 20:25:00 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_free_s(char **table)
 	int	i;
 
 	i = 0;
-	while(table[i++])
+	while (table[i++])
 		free(table[i - 1]);
 	free(table);
 }

@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 00:32:50 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 12:44:20 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/07 19:16:04 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	set_dot(t_dot *dot, int i, int j, char *element)
 {
 	char	*comma;
 
-	dot->abscissa = i;
-	dot->ordinate = j;
-	dot->altitude = ft_atoi(element);
+	dot->abscissa = (double)i;
+	dot->ordinate = (double)j;
+	dot->altitude = (double)ft_atoi(element);
 	comma = ft_strchr(element, ',');
 	if (comma)
 		dot->color = ft_atoi_hex(comma + 1);

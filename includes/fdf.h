@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:51:23 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 20:02:41 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/07 20:35:41 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,11 @@
 
 typedef struct s_dot
 {
-	int	abscissa;
-	int	ordinate;
-	int	altitude;
-	int	color;
+	double	abscissa;
+	double	ordinate;
+	double	altitude;
+	int		color;
 }	t_dot;
-
-typedef struct s_camera
-{
-	double	alpha;
-	double	beta;
-	double	gamma;
-}	t_camera;
 
 typedef struct s_img
 {
@@ -77,7 +70,7 @@ typedef struct s_proj_dot
 {
 	double	proj_x;
 	double	proj_y;
-	int	color;
+	int		color;
 }	t_proj_dot;
 
 typedef struct s_limits
@@ -106,7 +99,7 @@ typedef struct s_map
 	t_limits	limits;
 }	t_map;
 
-typedef	struct	s_fdf_win_g
+typedef	struct s_fdf_win_g
 {
 	t_map	*map;
 	t_img	*img;
@@ -115,7 +108,8 @@ typedef	struct	s_fdf_win_g
 }	t_fdf_win_g;
 
 t_dot		**get_dot_from(char *file, int *height, int *width);
-void		fill_img_with_pixel_dots(t_img **img, t_map *map, int height, int width);
+void		fill_img_with_pixel_dots(t_img **img, t_map *map,
+				int height, int width);
 int			put_all(t_fdf_win_g *fdf_g, char *file);
 int			get_map_dimensions(char *file, int *width, int *height);
 void		set_dot(t_dot *dot, int i, int j, char *element);
@@ -123,11 +117,11 @@ void		ft_free(void **table, int size);
 t_limits	get_map_limits(t_map *map);
 int			inits_map(char *file, int *width, int *height, t_map **map);
 void		draw_lign(t_img *img, t_proj_dot dot_a, t_proj_dot dot_b);
-void		rotate_x(double *y, double *z, double alpha);
-void		rotate_y(double *x, double *z, double beta);
-void		rotate_z(double *x, double *y, double gamma);
-void		translation(double *x, double *y, double *z, double k);
-void		iso_project(t_dot dot, double *proj_x, double *proj_y, double z_divisor);
+void		rotate_x(t_map **map);
+void		rotate_y(t_map **map);
+void		rotate_z(t_map **map);
+void		iso_project(t_dot dot, double *proj_x,
+				double *proj_y, double z_divisor);
 void		print_map_debug(t_map *map);
 int			ft_atoi_hex(char *str);
 int			get_color(int start, int end, double percentage);
@@ -140,5 +134,8 @@ int			init_proj_dots(t_map *map);
 void		set_zoom(t_map *map, t_limits lim);
 void		set_initial_factor(t_map *map);
 void		set_offset(t_map *map, t_limits lim);
+void		reset_print_amod(void *param);
+int			handle_mouse(int button, int x, int y, void *param);
+void		g_rotation(int keysym, int n_keysym, double *angle);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 14:30:21 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 18:21:28 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/07 20:14:04 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,12 @@ void	exit_program(void *param)
 	free(fdf_g);
 	exit(EXIT_SUCCESS);
 }
+
+void	g_rotation(int keysym, int n_keysym, double *angle)
+{
+	if (keysym == n_keysym)
+		*angle += 0.5;
+	else
+		*angle -= 0.5;
+}
+

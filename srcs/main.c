@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 02:02:56 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 20:03:53 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:18:31 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int main(int ac, char **av)
     if (!put_all(fdf_g, av[1]))
         return (1);
     mlx_hook(fdf_g->win, 2, 1L << 0, (void *)handle_keypress, fdf_g);
+    mlx_hook(fdf_g->win, 4, 1L<<2, (void *)handle_mouse, fdf_g);
     mlx_loop(fdf_g->mlx);
 	return (0);
 }

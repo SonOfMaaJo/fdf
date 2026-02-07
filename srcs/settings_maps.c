@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 17:05:35 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/06 17:39:36 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/07 20:08:57 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ void	set_initial_factor(t_map *map)
 	map->z_divisor = 4.0;
 	map->projection_type = 0;
 	map->shear_factor = 0;
+	map->angle_x = 0;
+	map->angle_y = 0;
+	map->angle_z = 0;
 }
 
 void	set_offset(t_map *map, t_limits lim)
