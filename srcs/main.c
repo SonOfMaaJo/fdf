@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 02:02:56 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/07 18:18:31 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/09 00:11:19 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int put_all(t_fdf_win_g *fdf_g, char *file)
 
 int main(int ac, char **av)
 {
-    t_fdf_win_g   *fdf_g;
+    t_fdf_win_g *fdf_g;
 
     if (ac != 2)
         return (ft_putstr_fd("Usage : ./fdf <MAP_FILE.fdf>\n", 2), 1);
@@ -95,7 +95,7 @@ int main(int ac, char **av)
     fdf_g->mlx = mlx_init();
     if (!(fdf_g->mlx))
         return (0);
-    fdf_g->win = mlx_new_window(fdf_g->mlx, WIN_WIDTH, WIN_HEIGHT, FDF_TITLE);
+    fdf_g->win = mlx_new_window(fdf_g->mlx, WIN_WIDTH, WIN_HEIGHT, av[1]);
     if (!(fdf_g->win))
         return (0);
     fdf_g->map = NULL;
@@ -103,6 +103,7 @@ int main(int ac, char **av)
         return (1);
     mlx_hook(fdf_g->win, 2, 1L << 0, (void *)handle_keypress, fdf_g);
     mlx_hook(fdf_g->win, 4, 1L<<2, (void *)handle_mouse, fdf_g);
+    mlx_hook(fdf_g->win, 17, 0, (void *)exit_program, fdf_g);
     mlx_loop(fdf_g->mlx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 17:43:42 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/07 18:57:48 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/08 03:38:41 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ void	reset_print_amod(void *param)
 	fill_img_with_pixel_dots(&(fdf_g->img), fdf_g->map, (fdf_g->map)->height,
 		fdf_g->map->width);
 	mlx_put_image_to_window(fdf_g->mlx, fdf_g->win, fdf_g->img->img_ptr, 0, 0);
+}
+
+void rotate(t_map map, double *x, double *y, double *z)
+{
+	rotate_x(y, z, map.angle_x);
+	rotate_y(x, z, map.angle_y);
+	rotate_z(x, y, map.angle_z);
+	*x += map.width / 2;
+	*y += map.height / 2;
 }
 
 int	handle_mouse(int button, int x, int y, void *param)

@@ -28,3 +28,54 @@ int	get_color(int start, int end, double percentage)
 	b = get_light(start & 0xFF, end & 0xFF, percentage);
 	return ((r << 16) | (g << 8) | b);
 }
+
+static void	get_z_min_max(t_map *map, double *min, double *max)
+{
+	int	i;
+	int	j;
+
+	*min = map->dots[0][0].altitude;
+	*max = map->dots[0][0].altitude;
+	i = -1;
+	while (++i < map->height)
+	{
+		j = -1;
+		while (++j < map->width)
+		{
+			if (map->dots[i][j].altitude < *min)
+				*min = map->dots[i][j].altitude;
+			if (map->dots[i][j].altitude > *max)
+				*max = map->dots[i][j].altitude;
+		}
+	}
+}
+
+void	color_map(t_map *map)
+{
+	int		i;
+	int		j;
+	double	min_z;
+	double	max_z;
+	double	p;
+
+	get_z_min_max(map, &min_z, &max_z);
+	i = -1;
+	while (++i < map->height)
+	{
+		j = -1;
+		while (++j < map->width)
+		{
+			if (map->dots[i][j].color == -1)
+			{
+				if (max_z == min_z)
+					p = 0;
+				else
+					p = (map->dots[i][j].altitude - min_z) / (max_z - min_z);
+				if (p < 0.5)
+					map->dots[i][j].color = get_color(0x1E90FF, 0x228B22, p * 2);
+				else
+					map->dots[i][j].color = get_color(0x228B22, 0xFFFFFF, (p - 0.5) * 2);
+			}
+		}
+	}
+}

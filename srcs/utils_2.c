@@ -26,9 +26,11 @@ void	ft_free_s(char **table)
 {
 	int	i;
 
+	if (!table)
+		return ;
 	i = 0;
-	while (table[i++])
-		free(table[i - 1]);
+	while (table[i])
+		free(table[i++]);
 	free(table);
 }
 
@@ -54,13 +56,18 @@ int	inits_map(char *file, int	*width, int *height, t_map **map)
 	t_limits	lim;
 
 	*map = (t_map *)malloc(sizeof(t_map));
-	if (!(map))
+	if (!(*map))
 		return (0);
 	(*map)->dots = get_dot_from(file, height, width);
 	if (!((*map)->dots))
-		return (free(map), 0);
+	{
+		free(*map);
+		*map = NULL;
+		return (0);
+	}
 	(*map)->width = *width;
 	(*map)->height = *height;
+	color_map(*map);
 	set_initial_factor(*map);
 	if (!init_proj_dots(*map))
 		return (0);

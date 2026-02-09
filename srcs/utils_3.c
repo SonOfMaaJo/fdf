@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 14:30:21 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/07 20:14:04 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/08 03:38:23 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,33 @@ void	exit_program(void *param)
 	exit(EXIT_SUCCESS);
 }
 
+void	transform_and_project(t_dot dot, t_map *map, int *proj_x, int *proj_y)
+{
+	double	x;
+	double	y;
+	double	z;
+	double	px;
+	double	py;
+
+	x = dot.abscissa;
+	y = dot.ordinate;
+	z = dot.altitude;
+	z /= map->z_divisor;
+	x -= map->width / 2;
+	y -= map->height / 2;
+	x += y * map->shear_factor;
+	rotate(*map, &x, &y, &z);
+	px = x;
+	py = y;
+	if (map->projection_type == 0)
+	{
+		px = (x - y) * cos(0.523599);
+		py = -z + (x + y) * sin(0.523599);
+	}
+	*proj_x = (int)((px * map->zoom) + map->offset_x + map->trans.trans_x);
+	*proj_y = (int)((py * map->zoom) + map->offset_y + map->trans.trans_y);
+}
+
 void	g_rotation(int keysym, int n_keysym, double *angle)
 {
 	if (keysym == n_keysym)
@@ -37,3 +64,28 @@ void	g_rotation(int keysym, int n_keysym, double *angle)
 		*angle -= 0.5;
 }
 
+void	shear_map(int keysym, void *param)
+{
+	t_fdf_win_g	*fdf_g;
+
+	fdf_g = (t_fdf_win_g *)param;
+	if (keysym == KEY_K)
+		fdf_g->map->shear_factor += 0.1;
+	else
+		fdf_g->map->shear_factor -= 0.1;
+	reset_print_amod(param);
+}
+
+void	parallel_projection(int keysym, void *param)
+{
+	t_fdf_win_g *fdf_g;
+
+	fdf_g = (t_fdf_win_g *)param;
+	if (keysym == KEY_I)
+		fdf_g->map->projection_type = 0;
+	else
+		fdf_g->map->projection_type = 1;
+	fdf_g->map->limits = get_map_limits(fdf_g->map);
+	set_offset(fdf_g->map, fdf_g->map->limits);
+	reset_print_amod(param);
+}

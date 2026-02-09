@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 17:05:35 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/07 20:08:57 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/08 02:44:36 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	set_initial_factor(t_map *map)
 	map->angle_x = 0;
 	map->angle_y = 0;
 	map->angle_z = 0;
+	map->trans.trans_x = 0;
+	map->trans.trans_y = 0;
 }
 
 void	set_offset(t_map *map, t_limits lim)

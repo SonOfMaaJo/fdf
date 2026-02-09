@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 00:32:50 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/07 19:16:04 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/09 00:29:17 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,14 @@ void	set_dot(t_dot *dot, int i, int j, char *element)
 {
 	char	*comma;
 
-	dot->abscissa = (double)i;
-	dot->ordinate = (double)j;
+	dot->abscissa = (double)j;
+	dot->ordinate = (double)i;
 	dot->altitude = (double)ft_atoi(element);
 	comma = ft_strchr(element, ',');
 	if (comma)
 		dot->color = ft_atoi_hex(comma + 1);
 	else
-	{
-		if (dot->altitude < 0)
-			dot->color = 0x0000FF;
-		else if (dot->altitude == 0)
-			dot->color = 0x228B22;
-		else if (dot->altitude > 0 && dot->altitude < 20)
-			dot->color = 0xBB4513;
-		else if (dot->altitude > 20)
-			dot->color = 0xFFFFFF;
-	}
+		dot->color = -1;
 }
 
 static int	get_width_line(char *line)
@@ -127,7 +118,13 @@ t_limits get_map_limits(t_map *map)
 		j = -1;
 		while (++j < map->width)
 		{
-			iso_project(map->dots[i][j], &proj_x, &proj_y, map->z_divisor);
+			if (map->projection_type)
+			{
+				proj_x = map->dots[i][j].abscissa;
+				proj_y = map->dots[i][j].ordinate;
+			}
+			else
+				iso_project(map->dots[i][j], &proj_x, &proj_y, map->z_divisor);
 			set_limits(&lim, (int)proj_x, (int)proj_y);
 		}
 	}

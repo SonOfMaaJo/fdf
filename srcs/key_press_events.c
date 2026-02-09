@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:07:18 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/07 20:24:02 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/08 02:44:19 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ static void	translate_map(int keysym, void	*param)
 
 	fdf_g = (t_fdf_win_g *)param;
 	if (keysym == KEY_DIR_UP)
-		fdf_g->map->offset_y -= 10;
+		fdf_g->map->trans.trans_y -= 10;
 	else if (keysym == KEY_DIR_DOWN)
-		fdf_g->map->offset_y += 10;
+		fdf_g->map->trans.trans_y += 10;
 	else if (keysym == KEY_DIR_RIGHT)
-		fdf_g->map->offset_x += 10;
+		fdf_g->map->trans.trans_x += 10;
 	else if (keysym == KEY_DIR_LEFT)
-		fdf_g->map->offset_x -= 10;
+		fdf_g->map->trans.trans_x -= 10;
 	reset_print_amod(param);
 }
 
@@ -60,20 +60,11 @@ static void	rotation(int keysym, void *param)
 
 	fdf_g = (t_fdf_win_g *)param;
 	if (keysym == KEY_W || keysym == KEY_S)
-	{
 		g_rotation(keysym, KEY_W, &(fdf_g->map->angle_x));
-		rotate_x(&(fdf_g->map));
-	}
 	else if (keysym == KEY_A || keysym == KEY_D)
-	{
 		g_rotation(keysym, KEY_A, &(fdf_g->map->angle_y));
-		rotate_y(&(fdf_g->map));
-	}
 	else if (keysym == KEY_Q || keysym == KEY_E)
-	{
 		g_rotation(keysym, KEY_Q, &(fdf_g->map->angle_z));
-		rotate_z(&(fdf_g->map));
-	}
 	reset_print_amod(param);
 }
 
@@ -91,5 +82,9 @@ int	handle_keypress(int keysym, void *param)
 	else if (keysym == KEY_A || keysym == KEY_D || keysym == KEY_W
 		|| keysym == KEY_S || keysym == KEY_Q || keysym == KEY_E)
 		rotation(keysym, param);
+	else if (keysym == KEY_K || keysym == KEY_L)
+		shear_map(keysym, param);
+	else if (keysym == KEY_P || keysym == KEY_I)
+		parallel_projection(keysym, param);
 	return (0);
 }

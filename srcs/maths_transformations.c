@@ -6,85 +6,39 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 02:33:31 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/07 20:26:25 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/08 00:55:54 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	rotate_x(t_map **map)
+void	rotate_x(double *y, double *z, double alpha)
 {
 	double	previous_y;
-	double	previous_z;
-	t_map	*map_sec;
-	int		i;
-	int		j;
 
-	map_sec = *map;
-	i = -1;
-	while (++i < map_sec->height)
-	{
-		j = -1;
-		while (++j < map_sec->width)
-		{
-			previous_y = ((map_sec->dots)[i][j]).ordinate;
-			previous_z = ((map_sec->dots)[i][j]).altitude;
-			((map_sec->dots)[i][j]).abscissa = previous_y
-				* cos(map_sec->angle_x) + previous_z * sin(map_sec->angle_x);
-			((map_sec->dots)[i][j]).ordinate = -1 * previous_y
-				* sin(map_sec->angle_x) + previous_z * cos(map_sec->angle_x);
-		}
-	}
+	previous_y = *y;
+	*y = previous_y * cos(alpha) + *z * sin(alpha);
+	*z = -1 * previous_y * sin(alpha) + *z * cos(alpha);
 }
 
-void	rotate_y(t_map **map)
+void	rotate_y(double *x, double *z, double beta)
 {
 	double	previous_x;
-	double	previous_z;
-	t_map	*map_sec;
-	int		i;
-	int		j;
 
-	map_sec = *map;
-	i = -1;
-	while (++i < map_sec->height)
-	{
-		j = -1;
-		while (++j < map_sec->width)
-		{
-			previous_x = ((map_sec->dots)[i][j]).abscissa;
-			previous_z = ((map_sec->dots)[i][j]).altitude;
-			((map_sec->dots)[i][j]).abscissa = previous_x
-				* cos(map_sec->angle_y) + previous_z * sin(map_sec->angle_y);
-			((map_sec->dots)[i][j]).ordinate = -1 * previous_x
-				* sin(map_sec->angle_y) + previous_z * cos(map_sec->angle_y);
-		}
-	}
+	previous_x = *x;
+	*x = previous_x * cos(beta) + *z * sin(beta);
+	*z = -1 * previous_x * sin(beta) + *z * cos(beta);
 }
 
-void	rotate_z(t_map **map)
+void	rotate_z(double *x, double *y, double gamma)
 {
 	double	previous_x;
 	double	previous_y;
-	t_map	*map_sec;
-	int		i;
-	int		j;
 
-	map_sec = *map;
-	i = -1;
-	while (++i < map_sec->height)
-	{
-		j = -1;
-		while (++j < map_sec->width)
-		{
-			previous_x = ((map_sec->dots)[i][j]).abscissa;
-			previous_y = ((map_sec->dots)[i][j]).ordinate;
-			((map_sec->dots)[i][j]).abscissa = previous_x
-				* cos(map_sec->angle_z) - previous_y * sin(map_sec->angle_z);
-			((map_sec->dots)[i][j]).ordinate = previous_x
-				* sin(map_sec->angle_z) + previous_y * cos(map_sec->angle_z);
-		}
-	}
+	previous_x = *x;
+	previous_y = *y;
+	*x = previous_x * cos(gamma) - previous_y * sin(gamma);
+	*y = previous_x * sin(gamma) + previous_y * cos(gamma);
 }
 
 void	iso_project(t_dot dot, double *proj_x, double *proj_y, double z_divisor)
