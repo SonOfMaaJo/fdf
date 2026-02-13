@@ -12,6 +12,20 @@
 
 #include "fdf.h"
 
+void	set_dot(t_dot *dot, int i, int j, char *element)
+{
+	char	*comma;
+
+	dot->abscissa = (double)j;
+	dot->ordinate = (double)i;
+	dot->altitude = (double)ft_atoi(element);
+	comma = ft_strchr(element, ',');
+	if (comma)
+		dot->color = ft_atoi_hex(comma + 1);
+	else
+		dot->color = -1;
+}
+
 static void	compute_projections(t_map *map, int height, int width)
 {
 	int			i;
@@ -25,7 +39,7 @@ static void	compute_projections(t_map *map, int height, int width)
 		{
 			transform_and_project(map->dots[i][j], map,
 				&(map->proj_dots[i][j].proj_x),
-					&(map->proj_dots[i][j].proj_y));
+				&(map->proj_dots[i][j].proj_y));
 			map->proj_dots[i][j].color = (map->dots[i][j]).color;
 		}
 	}

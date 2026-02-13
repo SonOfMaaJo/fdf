@@ -4,40 +4,60 @@
 
 ## Description
 
-FdF is a simple wireframe model representation project. The goal is to create a graphic representation of a relief landscape by linking various points $(x, y, z)$ stored in a file. The project utilizes the **MiniLibX** library to open a window, draw lines, and manage events.
+**FdF** is a computer graphics project that involves representing a 3D wireframe landscape. The program reads a file containing coordinates $(x, y, z)$ and uses the **MiniLibX** library to project and connect these points in a graphic window, allowing for the visualization of complex terrains in an interactive way.
 
 ## Project Description: Technical Choices
 
-### Rendering: Bresenham's Line Algorithm
+### Line Drawing: Bresenham's Algorithm
 
-To draw the lines connecting the points of the map, the **Bresenham's algorithm** was chosen. This algorithm is crucial for performance as it determines the points of an $n$-dimensional raster that should be selected in order to form a close approximation to a straight line between two points.
+Drawing the segments connecting the points of the map is one of the project's pillars. To ensure optimal performance, **Bresenham's algorithm** was implemented.
 
-*   **Efficiency:** It uses only integer addition, subtraction, and bit shifting, which are very cheap operations in standard computer architectures.
-*   **Precision:** It avoids floating-point arithmetic errors that can occur with simple slope calculations ($y = mx + b$).
-
-### Graphics: Image Buffering vs `mlx_pixel_put`
-
-The MiniLibX library provides a function `mlx_pixel_put` to draw a pixel on the window. However, using this function for thousands of pixels (like in a wireframe map) is extremely slow because it pushes pixels to the window server one by one.
-
-**Image Buffering** was implemented to solve this:
-1.  An **Image** is created in memory (`mlx_new_image`).
-2.  All pixels are drawn directly into the image's memory buffer (`char *data_addr`).
-3.  Once the frame is complete, the entire image is pushed to the window at once using `mlx_put_image_to_window`.
-This technique ensures smooth rendering and eliminates flickering.
+*   **Why Bresenham?**
+    *   **Performance:** It uses only integer addition, subtraction, and bit shifting, avoiding costly floating-point calculations.
+    *   **Precision:** It minimizes the distance error between the plotted pixels and the theoretical line, ensuring a sharp visual rendering without gaps in the segments.
 
 ### Projections: Isometric vs Parallel
 
-The project implements two types of projections to convert 3D coordinates $(x, y, z)$ into 2D screen coordinates $(x_{screen}, y_{screen})$.
+The subject requires a representation in **isometric projection**. However, to provide better flexibility, the project offers two types of views:
 
-#### Isometric Projection
-*   **Concept:** Simulates 3D by rotating the object. The standard isometric projection angles are used ($\approx 30^{\circ}$ or $0.523599$ radians).
-*   **Formula:**
-    *   $x' = (x - y) * \cos(30^{\circ})$
-    *   $y' = -z + (x + y) * \sin(30^{\circ})$
+#### 1. Isometric Projection (Mandatory)
+*   **Concept:** The three axes of space ($x, y, z$) are represented with the same scale factor, creating a balanced 3D illusion.
+*   **Calculation:** We apply a $45^{\circ}$ rotation on the Z axis followed by a rotation of approximately $35.26^{\circ}$ on the X axis (or via the simplified formula using $\cos(30^{\circ})$ and $\sin(30^{\circ})$).
 
-#### Parallel Projection
-*   **Concept:** Keeps parallel lines parallel and offers a "top-down" or "front" view depending on the angles.
-*   **Usage:** Useful for inspecting the raw data layout without the isometric distortion.
+#### 2. Parallel Projection (Bonus)
+*   **Concept:** Parallel lines in 3D space remain parallel on the 2D screen. This view is ideal for inspecting the raw data layout without isometric distortion.
+
+### Graphic Management: MiniLibX Images
+
+Using the `mlx_pixel_put` function is forbidden for mass rendering because it is extremely slow (individual communication with the X server for each pixel).
+
+*   **Solution:** Mandatory use of MiniLibX **Images**.
+*   **Mechanism:** The program allocates a memory buffer (pixel buffer), calculates and writes all the frame's pixels directly into this buffer, then pushes the entire image to the window in a single call (`mlx_put_image_to_window`). This ensures smooth navigation and no flickering.
+
+---
+
+## Controls
+
+The program offers full interactive management of the model via keyboard and mouse:
+
+### 1. Geometric Transformations
+*   **Translation:** Use the **arrow keys** (Up, Down, Left, Right) to move the model.
+*   **Rotation:**
+    *   `W` / `S`: Rotation on the **X** axis.
+    *   `A` / `D`: Rotation on the **Y** axis.
+    *   `Q` / `E`: Rotation on the **Z** axis.
+*   **Zoom:** **Mouse wheel** (Scroll Up to zoom in, Scroll Down to zoom out).
+*   **Relief (Altitude):** `Page Up` and `Page Down` keys to accentuate or flatten peaks.
+
+### 2. Display and Projections
+*   **Projections:**
+    *   `I`: Switch to **Isometric Projection**.
+    *   `P`: Switch to **Parallel Projection**.
+*   **Reset:** `R` key to reset the model to its original position and zoom.
+*   **Shearing:** `K` and `L` keys (Experimental bonus).
+
+### 3. System
+*   **Quit:** `ESC` key or click on the **red cross** of the window to close the program cleanly.
 
 ---
 
@@ -45,70 +65,54 @@ The project implements two types of projections to convert 3D coordinates $(x, y
 
 ### 1. Compilation
 
-The project is compiled using a `Makefile`.
+The project uses a `Makefile` that adheres to the school's Norm.
 
-*   **Standard Build:**
+*   **Mandatory Part:**
     ```bash
     make
     ```
     Generates the `fdf` executable.
+
+*   **Bonus Part:**
+    ```bash
+    make bonus
+    ```
 
 *   **Cleaning:**
     ```bash
     make fclean
     ```
 
-### 2. Running the Program
+### 2. Usage
 
-Run the program by passing a map file as an argument. Maps are located in the `test_maps/` directory.
+The program takes a `.fdf` file as an argument:
 
 ```bash
 ./fdf test_maps/42.fdf
 ```
 
-### 3. Controls
-
-The project supports keyboard and mouse interactions:
-
-| Key / Action | Description |
-| :--- | :--- |
-| `WASDQE` | **Rotate** the map along X, Y, and Z axes. |
-| `Arrow Keys` | **Translate** (move) the map. |
-| `Scroll / +/-` | **Zoom** in and out. |
-| `Page Up/Down` | **Relief**: Flatten or exaggerate the altitude ($z$). |
-| `I` / `P` | Switch between **Isometric** and **Parallel** projections. |
-| `K` / `L` | **Shear** the map. |
-| `R` | **Reset** the view to default. |
-| `ESC` / `Cross` | **Quit** the program cleanly. |
-
 ---
 
 ## Bonus Part
 
-The mandatory part requires basic wireframe display. This project includes the following bonus features:
+In accordance with Chapter VII of the subject, the following features were added to enhance the user experience:
 
-*   **Full Transformations:** Implementation of rotation matrices for X, Y, and Z axes, translation, and zooming.
-*   **Dynamic Colors:**
-    *   Supports hex colors defined in the map file (e.g., `10,0xFF0000`).
-    *   **Auto-Gradient:** If no color is provided, a gradient is applied based on altitude:
-        *   **Blue** for lowest points (Water).
-        *   **Green** for mid-level points (Land).
-        *   **White** for highest points (Peaks/Snow).
-*   **Dual Projection:** Ability to toggle between Isometric and Parallel views at runtime.
-*   **Clean Exit:** Proper memory management ensuring no leaks on exit.
+*   **Full Transformations:** Rotation on 3 axes (X, Y, Z), Translation, and Zoom.
+*   **Extra Projection:** Ability to toggle between Isometric and Parallel views (keys `I` and `P`).
+*   **Relief Management:** Keys allowing to exaggerate or flatten altitudes in real-time.
+*   **Color Gradient:** If no color is specified in the file, a dynamic gradient (Blue -> Green -> White) is applied based on altitude.
+*   **Mouse Management:** Smooth zooming via the scroll wheel.
 
 ---
 
 ## AI Usage
 
-Artificial Intelligence was used to assist in debugging memory management issues (specifically `free` errors), optimizing the rotation logic to center the map correctly, and refining the color gradient algorithm for better visual aesthetics.
+Artificial Intelligence was used to assist in structuring this README, providing theoretical explanations of Bresenham's algorithm, and solving specific bugs related to color and memory management (notably `free()` errors during parsing).
 
 ---
 
 ## Resources
 
+*   [MiniLibX Documentation (42Docs)](https://harm-smits.github.io/42docs/libs/minilibx)
 *   [Bresenham's line algorithm - Wikipedia](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm)
-*   [MiniLibX Documentation](https://harm-smits.github.io/42docs/libs/minilibx)
-*   [Isometric Projection Mathematics](https://en.wikipedia.org/wiki/Isometric_projection)
-
----
+*   [3D Projection Mathematics](https://en.wikipedia.org/wiki/3D_projection)

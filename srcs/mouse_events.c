@@ -40,7 +40,7 @@ void	reset_print_amod(void *param)
 	mlx_put_image_to_window(fdf_g->mlx, fdf_g->win, fdf_g->img->img_ptr, 0, 0);
 }
 
-void rotate(t_map map, double *x, double *y, double *z)
+void	rotate(t_map map, double *x, double *y, double *z)
 {
 	rotate_x(y, z, map.angle_x);
 	rotate_y(x, z, map.angle_y);

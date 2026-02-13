@@ -6,26 +6,40 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 14:30:21 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/08 03:38:23 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/11 15:45:00 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	cleanup(t_fdf_win_g *fdf_g)
+{
+	if (!fdf_g)
+		return ;
+	if (fdf_g->map)
+	{
+		ft_free((void **)fdf_g->map->dots, fdf_g->map->height);
+		ft_free((void **)fdf_g->map->proj_dots, fdf_g->map->height);
+		free(fdf_g->map);
+	}
+	if (fdf_g->img)
+	{
+		mlx_destroy_image(fdf_g->mlx, fdf_g->img->img_ptr);
+		free(fdf_g->img);
+	}
+	if (fdf_g->win)
+		mlx_destroy_window(fdf_g->mlx, fdf_g->win);
+	if (fdf_g->mlx)
+	{
+		mlx_destroy_display(fdf_g->mlx);
+		free(fdf_g->mlx);
+	}
+	free(fdf_g);
+}
+
 void	exit_program(void *param)
 {
-	t_fdf_win_g	*fdf_g;
-
-	fdf_g = (t_fdf_win_g *)(param);
-	ft_free((void **)(fdf_g->map)->dots, (fdf_g->map)->height);
-	ft_free((void **)(fdf_g->map)->proj_dots, (fdf_g->map)->height);
-	free(fdf_g->map);
-	mlx_destroy_image(fdf_g->mlx, (fdf_g->img)->img_ptr);
-	free(fdf_g->img);
-	mlx_destroy_window(fdf_g->mlx, fdf_g->win);
-	mlx_destroy_display(fdf_g->mlx);
-	free(fdf_g->mlx);
-	free(fdf_g);
+	cleanup((t_fdf_win_g *)param);
 	exit(EXIT_SUCCESS);
 }
 
@@ -78,7 +92,7 @@ void	shear_map(int keysym, void *param)
 
 void	parallel_projection(int keysym, void *param)
 {
-	t_fdf_win_g *fdf_g;
+	t_fdf_win_g	*fdf_g;
 
 	fdf_g = (t_fdf_win_g *)param;
 	if (keysym == KEY_I)

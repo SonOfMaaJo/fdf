@@ -27,7 +27,8 @@ MLX_FLAGS   = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm -lbsd
 # Sources
 SRCS_FILES  = main.c utils.c utils_2.c utils_dots.c utils_colors.c \
 			  maths_transformations.c ft_atoi_base.c bresenham.c \
-			  key_press_events.c utils_3.c settings_maps.c mouse_events.c
+			  key_press_events.c utils_3.c settings_maps.c mouse_events.c \
+			  get_map.c camera_movement.c
 SRCS        = $(addprefix $(SRC_DIR), $(SRCS_FILES))
 OBJS        = $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
@@ -83,4 +84,6 @@ fclean: clean
 re: fclean all
 	@echo "$(GREEN)Cleaned and rebuilt everything!$(DEF_COLOR)"
 
-.PHONY: all clean fclean re
+bonus: all
+
+.PHONY: all clean fclean re bonus

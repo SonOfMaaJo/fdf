@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:07:18 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/08 02:44:19 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:03:28 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ static void	rotation(int keysym, void *param)
 	t_fdf_win_g	*fdf_g;
 
 	fdf_g = (t_fdf_win_g *)param;
-	if (keysym == KEY_W || keysym == KEY_S)
+	if (keysym == KEY_W || keysym == KEY_A)
 		g_rotation(keysym, KEY_W, &(fdf_g->map->angle_x));
-	else if (keysym == KEY_A || keysym == KEY_D)
-		g_rotation(keysym, KEY_A, &(fdf_g->map->angle_y));
+	else if (keysym == KEY_S || keysym == KEY_D)
+		g_rotation(keysym, KEY_S, &(fdf_g->map->angle_y));
 	else if (keysym == KEY_Q || keysym == KEY_E)
 		g_rotation(keysym, KEY_Q, &(fdf_g->map->angle_z));
 	reset_print_amod(param);
