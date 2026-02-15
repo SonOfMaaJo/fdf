@@ -6,7 +6,7 @@
 #    By: gemini-cli <support@google.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/28 15:00:00 by gemini-cli        #+#    #+#              #
-#    Updated: 2026/02/07 20:38:12 by vnaoussi         ###   ########.fr        #
+#    Updated: 2026/02/16 00:56:57 by vnaoussi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ MLX_FLAGS   = -L$(MLX_DIR) -lmlx -L/usr/lib -lXext -lX11 -lm -lbsd
 SRCS_FILES  = main.c utils.c utils_2.c utils_dots.c utils_colors.c \
 			  maths_transformations.c ft_atoi_base.c bresenham.c \
 			  key_press_events.c utils_3.c settings_maps.c mouse_events.c \
-			  get_map.c camera_movement.c
+			  get_map.c
 SRCS        = $(addprefix $(SRC_DIR), $(SRCS_FILES))
 OBJS        = $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
