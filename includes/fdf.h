@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:51:23 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/11 21:15:39 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:30:48 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <math.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include <stdio.h>
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080

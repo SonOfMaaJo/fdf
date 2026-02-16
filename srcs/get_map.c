@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 15:00:00 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/16 16:24:16 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:16:44 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ static int	get_width_line(char *line)
 		i = (alt[0][0] == '-' || alt[0][0] == '+');
 		while (alt[0][i])
 			if (!ft_isdigit(alt[0][i++]))
-				return (ft_printf("files with non digits."),
+				return (ft_printf("files with non digits.\n"),
 					ft_free_s(alt), ft_free_s(s), -1);
 		if (ft_atol(alt[0]) > 2147483647 || ft_atol(alt[0]) < -2147483648)
-			return (ft_printf("files with wrong values."),
+			return (ft_printf("files with wrong values.\n"),
 				ft_free_s(alt), ft_free_s(s), -1);
 		ft_free_s(alt);
 		j++;
@@ -60,11 +60,11 @@ int	get_map_dimensions(char *file, int *height, int *width)
 	find_n(line);
 	*width = get_width_line(line);
 	*height = 0;
-	while (line)
+	while (line && *width > 0)
 	{
 		(*height)++;
 		if (get_width_line(line) != *width)
-			return (ft_printf("line on file with differents width."),
+			return (ft_printf("line on file with differents width.\n"),
 				free(line), close(fd), 0);
 		free(line);
 		line = get_next_line(fd);

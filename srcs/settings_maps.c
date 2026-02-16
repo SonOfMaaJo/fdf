@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 17:05:35 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/16 16:15:35 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/16 17:30:24 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,12 @@ int	init_proj_dots(t_map *map)
 
 void	set_zoom(t_map *map, t_limits lim)
 {
-	map->zoom = fmin(WIN_WIDTH / (lim.max_x - lim.min_x), WIN_HEIGHT
-			/ (lim.max_y - lim.min_y));
+	if (lim.max_x != lim.min_x && lim.max_y != lim.min_y)
+		map->zoom = fmin(WIN_WIDTH / (lim.max_x - lim.min_x), WIN_HEIGHT
+				/ (lim.max_y - lim.min_y));
+	else
+		map->zoom = fmin(WIN_WIDTH / (lim.max_x + 1), WIN_HEIGHT
+				/ (lim.max_y + 1));
 	if (map->zoom < 1)
 		map->zoom = 1;
 }
