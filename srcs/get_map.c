@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 15:00:00 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/11 15:00:00 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:24:16 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_width_line(char *line)
 
 	s = ft_split(line, ' ');
 	if (!s)
-		return (-1);
+		return (perror("split error"), -1);
 	j = 0;
 	while (s[j])
 	{
@@ -29,13 +29,21 @@ static int	get_width_line(char *line)
 		i = (alt[0][0] == '-' || alt[0][0] == '+');
 		while (alt[0][i])
 			if (!ft_isdigit(alt[0][i++]))
-				return (ft_free_s(alt), ft_free_s(s), -1);
+				return (ft_printf("files with non digits."),
+					ft_free_s(alt), ft_free_s(s), -1);
 		if (ft_atol(alt[0]) > 2147483647 || ft_atol(alt[0]) < -2147483648)
-			return (ft_free_s(alt), ft_free_s(s), -1);
+			return (ft_printf("files with wrong values."),
+				ft_free_s(alt), ft_free_s(s), -1);
 		ft_free_s(alt);
 		j++;
 	}
 	return (ft_free_s(s), j);
+}
+
+void	exit_program(void *param)
+{
+	cleanup((t_fdf_win_g *)param);
+	exit(EXIT_SUCCESS);
 }
 
 int	get_map_dimensions(char *file, int *height, int *width)
@@ -45,7 +53,7 @@ int	get_map_dimensions(char *file, int *height, int *width)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (0);
+		return (perror("fail to open file"), 0);
 	line = get_next_line(fd);
 	if (!line)
 		return (close(fd), 0);
@@ -56,7 +64,8 @@ int	get_map_dimensions(char *file, int *height, int *width)
 	{
 		(*height)++;
 		if (get_width_line(line) != *width)
-			return (free(line), close(fd), 0);
+			return (ft_printf("line on file with differents width."),
+				free(line), close(fd), 0);
 		free(line);
 		line = get_next_line(fd);
 		if (line)

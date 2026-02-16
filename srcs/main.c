@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 02:02:56 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/11 15:50:00 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:13:57 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static t_dot	*get_dot(char *line, int i, int width)
 	find_n(line);
 	splits_line = ft_split(line, ' ');
 	if (!splits_line)
-		return (NULL);
+		return (perror("allocation fail (split)"), NULL);
 	dots = (t_dot *)malloc(sizeof(t_dot) * width);
 	if (!dots)
-		return (NULL);
+		return (perror("allocation fail"), NULL);
 	while (splits_line[j])
 	{
 		set_dot((&dots[j]), i, j, splits_line[j]);
@@ -46,10 +46,10 @@ t_dot	**get_dot_from(char *file, int *height, int *width)
 		return (NULL);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (NULL);
+		return (perror("fail to open file"), NULL);
 	dots = (t_dot **)malloc(sizeof(t_dot *) * (*height));
 	if (!dots)
-		return (NULL);
+		return (perror("allocation fail"), NULL);
 	line = get_next_line(fd);
 	i = 0;
 	while (line)
@@ -72,10 +72,10 @@ int	put_all(t_fdf_win_g *fdf_g, char *file)
 		return (0);
 	fdf_g->img = malloc(sizeof(t_img));
 	if (!(fdf_g->img))
-		return (0);
+		return (perror("allocation fail"), 0);
 	fdf_g->img->img_ptr = mlx_new_image(fdf_g->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!(fdf_g->img->img_ptr))
-		return (0);
+		return (perror("minilibx error"), 0);
 	fdf_g->img->data = mlx_get_data_addr(fdf_g->img->img_ptr,
 			&(fdf_g->img->bit_per_pixel), &(fdf_g->img->size_line),
 			&(fdf_g->img->endian));
@@ -92,17 +92,17 @@ int	main(int ac, char **av)
 		return (ft_putstr_fd("Usage : ./fdf <MAP_FILE.fdf>\n", 2), 1);
 	fdf_g = (t_fdf_win_g *)malloc(sizeof(t_fdf_win_g));
 	if (!fdf_g)
-		return (1);
+		return (perror("allocation fail"), 1);
 	fdf_g->mlx = NULL;
 	fdf_g->win = NULL;
 	fdf_g->map = NULL;
 	fdf_g->img = NULL;
 	fdf_g->mlx = mlx_init();
 	if (!(fdf_g->mlx))
-		return (cleanup(fdf_g), 1);
+		return (perror("minilibx error (init)"), cleanup(fdf_g), 1);
 	fdf_g->win = mlx_new_window(fdf_g->mlx, WIN_WIDTH, WIN_HEIGHT, av[1]);
 	if (!(fdf_g->win))
-		return (cleanup(fdf_g), 1);
+		return (perror("minilibx errror"), cleanup(fdf_g), 1);
 	if (!put_all(fdf_g, av[1]))
 		return (cleanup(fdf_g), 1);
 	mlx_hook(fdf_g->win, 2, 1L << 0, (void *)handle_keypress, fdf_g);

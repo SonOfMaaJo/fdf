@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 17:05:35 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/08 02:44:36 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:15:35 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ int	init_proj_dots(t_map *map)
 	map->proj_dots = (t_proj_dot **)malloc(sizeof(t_proj_dot *)
 			* map->height);
 	if (!map->proj_dots)
-		return (ft_free((void **)map->dots, map->height), free(map), 0);
+		return (perror("allocation fail"),
+			ft_free((void **)map->dots, map->height), free(map), 0);
 	i = -1;
 	while (++i < map->height)
 	{
 		map->proj_dots[i] = (t_proj_dot *)malloc(sizeof(t_proj_dot)
 				* map->width);
 		if (!map->proj_dots[i])
-			return (ft_free((void **)map->dots, map->height),
+			return (perror("allocation fail"),
+				ft_free((void **)map->dots, map->height),
 				ft_free((void **)(map->proj_dots), i), free(map), 0);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 01:42:08 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/07 20:25:00 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:25:49 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ int	inits_map(char *file, int	*width, int *height, t_map **map)
 
 	*map = (t_map *)malloc(sizeof(t_map));
 	if (!(*map))
-		return (0);
+		return (perror("allocation fail"), 0);
 	(*map)->dots = get_dot_from(file, height, width);
 	if (!((*map)->dots))
 	{
 		free(*map);
 		*map = NULL;
-		return (0);
+		return (perror("allocation fail"), 0);
 	}
 	(*map)->width = *width;
 	(*map)->height = *height;

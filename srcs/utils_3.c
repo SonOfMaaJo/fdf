@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 14:30:21 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/11 15:45:00 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:04:44 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,6 @@ void	cleanup(t_fdf_win_g *fdf_g)
 		free(fdf_g->mlx);
 	}
 	free(fdf_g);
-}
-
-void	exit_program(void *param)
-{
-	cleanup((t_fdf_win_g *)param);
-	exit(EXIT_SUCCESS);
 }
 
 void	transform_and_project(t_dot dot, t_map *map, int *proj_x, int *proj_y)
