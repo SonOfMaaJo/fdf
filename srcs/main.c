@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 02:02:56 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/16 16:13:57 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/18 14:37:37 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_dot	**get_dot_from(char *file, int *height, int *width)
 		free(line);
 		line = get_next_line(fd);
 	}
-	return (dots);
+	return (close(fd), dots);
 }
 
 int	put_all(t_fdf_win_g *fdf_g, char *file)

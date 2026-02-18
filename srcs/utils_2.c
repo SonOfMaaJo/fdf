@@ -6,7 +6,7 @@
 /*   By: vnaoussi <vnaoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 01:42:08 by vnaoussi          #+#    #+#             */
-/*   Updated: 2026/02/16 17:23:55 by vnaoussi         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:25:49 by vnaoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	inits_map(char *file, int	*width, int *height, t_map **map)
 	{
 		free(*map);
 		*map = NULL;
-		return (0);
+		return (perror("allocation fail"), 0);
 	}
 	(*map)->width = *width;
 	(*map)->height = *height;
